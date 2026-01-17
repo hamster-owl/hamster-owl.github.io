@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku - Daily Puzzle</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0a0a10;
+            color: #fff;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .nav a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        .nav a:hover {
+            color: #fff;
+        }
+        .nav a.active {
+            color: #fff;
+            border-bottom: 2px solid #7b42f5;
+            padding-bottom: 5px;
+        }
+        .main {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 50px 20px;
+        }
+        .text-content {
+            max-width: 600px;
+        }
+        .text-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .text-content p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+        .btn {
+            background-color: #7b42f5;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #6a32e0;
+        }
+        .image-content img {
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="nav">
+            <!-- <a href="#">home</a> -->
+        </div>
+    </div>
+    <div class="main">
+        <div class="text-content">
+            <h1>Sudoku - Daily Puzzle</h1>
+            <p>Stretch your brain daily with this logic-based puzzle 🧠! Fill a 9x9 grid with 1-9, ensuring no repeats in rows, columns, or 3x3 blocks 🔢.
+                New challenges daily—perfect for beginners to experts. Boost focus and problem-solving while having fun 🎉. Play anytime, anywhere!</p>
+                <a href="https://play.google.com/store/apps/details?id=com.a.game.sudoku.puzzle.free" class="btn">START FOR FREE</a>
+        </div>
+        <div class="image-content">
+            <img src="https://play-lh.googleusercontent.com/HH911TnghFIDvstBI6pvIQMFy0Opourak93sLolg6JaHss2OmC5AvZXfA74WOIT3xg=w2560-h1440-rw" alt="Game Path">
+        </div>
+    </div>
+    <div class="watermark">豆包AI生成</div>
+</body>
+</html>
