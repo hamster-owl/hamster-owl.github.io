@@ -1,96 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coloring-master</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0a0a10;
-            color: #fff;
-        }
-        .nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        .nav a {
-            color: #ddd;
-            text-decoration: none;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
-        .nav a:hover {
-            color: #fff;
-        }
-        .nav a.active {
-            color: #fff;
-            border-bottom: 2px solid #7b42f5;
-            padding-bottom: 5px;
-        }
-        .main {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 50px 20px;
-        }
-        .text-content {
-            max-width: 600px;
-        }
-        .text-content h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        .text-content p {
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .btn {
-            background-color: #7b42f5;
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #6a32e0;
-        }
-        .image-content img {
-            max-width: 500px;
-            border-radius: 8px;
-        }
-        .watermark {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            color: #aaa;
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaron's Studio | Little Games, Big Joy</title>
+<meta name="description" content="Aaron's Studio — an independent game studio crafting free, feel-good puzzle games and playful tools. Download our apps on Google Play.">
+<style>
+  :root {
+    --coral: #ff7a59;
+    --coral-dark: #ff5e3a;
+    --sun: #ffc53d;
+    --pink: #ff5e7e;
+    --ink: #2b2333;
+    --ink-soft: #6b6372;
+    --bg: #fffdfb;
+    --bg-soft: #fff7f0;
+    --line: #f3e4d8;
+    --radius-lg: 24px;
+    --radius-md: 18px;
+    --shadow: 0 10px 34px rgba(84, 48, 20, 0.10);
+    --shadow-hover: 0 18px 46px rgba(255, 122, 89, 0.22);
+    --grad: linear-gradient(135deg, var(--coral), var(--sun));
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 253, 251, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    max-width: 1140px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+  .brand-logo {
+    width: 36px; height: 36px; border-radius: 11px;
+    background: var(--grad); display: grid; place-items: center;
+    color: #fff; font-size: 17px; font-weight: 800;
+    box-shadow: 0 4px 14px rgba(255, 122, 89, 0.45);
+  }
+  .nav-actions { display: flex; align-items: center; gap: 14px; }
+  .lang-switch {
+    display: flex; background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px; gap: 2px;
+  }
+  .lang-switch button {
+    border: none; background: transparent; cursor: pointer;
+    padding: 5px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    color: var(--ink-soft); font-family: inherit; transition: all .2s;
+  }
+  .lang-switch button.active { background: #fff; color: var(--coral-dark); box-shadow: 0 2px 8px rgba(84,48,20,.12); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--grad); color: #fff; font-weight: 700; font-size: 14px;
+    padding: 10px 20px; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(255, 122, 89, 0.38);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255, 122, 89, 0.5); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background:
+      radial-gradient(900px 460px at 88% -12%, rgba(255, 197, 61, 0.28), transparent 62%),
+      radial-gradient(760px 420px at -6% 24%, rgba(255, 94, 126, 0.22), transparent 55%),
+      linear-gradient(135deg, #3a2438 0%, #4a2b46 48%, #5c3040 100%);
+    color: #fff; padding: 88px 24px 120px; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.13) 1px, transparent 1px);
+    background-size: 30px 30px; opacity: .3;
+  }
+  .hero-inner {
+    max-width: 1140px; margin: 0 auto; position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between; gap: 48px;
+  }
+  .hero-copy { max-width: 560px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; letter-spacing: .4px;
+    padding: 6px 16px; border-radius: 999px; margin-bottom: 22px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22);
+  }
+  .hero-badge::before { content: "●"; color: var(--sun); font-size: 9px; }
+  .hero h1 { font-size: 54px; font-weight: 800; letter-spacing: -.8px; line-height: 1.12; margin-bottom: 18px; }
+  .hero h1 .grad { background: linear-gradient(90deg, #ffc53d, #ff8a5c, #ff5e7e); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: 17.5px; color: rgba(255,255,255,.82); margin-bottom: 30px; }
+  .hero .btn { font-size: 16px; padding: 13px 28px; }
+  .hero-note { margin-top: 18px; font-size: 13px; color: rgba(255,255,255,.55); }
+
+  /* Hero floating icons */
+  .hero-visual { position: relative; width: 360px; height: 340px; flex-shrink: 0; }
+  .ring {
+    position: absolute; border-radius: 50%;
+    border: 2px dashed rgba(255,255,255,.22);
+  }
+  .ring.r1 { width: 340px; height: 340px; top: 0; left: 10px; animation: spin 40s linear infinite; }
+  .ring.r2 { width: 250px; height: 250px; top: 45px; left: 55px; border-style: solid; border-color: rgba(255,197,61,.28); }
+  .float-icon {
+    position: absolute; border-radius: 22px; box-shadow: 0 16px 40px rgba(0,0,0,.35);
+    animation: float 5.5s ease-in-out infinite;
+  }
+  .float-icon.i1 { width: 96px; height: 96px; top: 6px; left: 12px; transform: rotate(-8deg); animation-delay: 0s; }
+  .float-icon.i2 { width: 84px; height: 84px; top: 30px; right: 6px; transform: rotate(7deg); animation-delay: 1.2s; }
+  .float-icon.i3 { width: 104px; height: 104px; bottom: 8px; left: 34px; transform: rotate(5deg); animation-delay: 2.1s; }
+  .float-icon.i4 { width: 78px; height: 78px; bottom: 34px; right: 30px; transform: rotate(-6deg); animation-delay: .6s; }
+  .hero-core {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 120px; height: 120px; border-radius: 50%;
+    background: var(--grad); display: grid; place-items: center;
+    font-size: 44px; box-shadow: 0 14px 44px rgba(255, 122, 89, 0.5);
+  }
+  @keyframes float { 0%,100% { translate: 0 0; } 50% { translate: 0 -14px; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    max-width: 1140px; margin: -52px auto 0; padding: 0 24px; position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  .stat-card {
+    background: #fff; border-radius: var(--radius-md); padding: 22px;
+    text-align: center; box-shadow: var(--shadow); border: 1px solid var(--line);
+  }
+  .stat-card .num { font-size: 30px; font-weight: 800; color: var(--coral-dark); }
+  .stat-card .num .star { color: var(--sun); font-size: 17px; }
+  .stat-card .label { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* ---------- Sections ---------- */
+  section { max-width: 1140px; margin: 0 auto; padding: 76px 24px 0; }
+  .section-head { text-align: center; margin-bottom: 46px; }
+  .section-head h2 { font-size: 34px; font-weight: 800; letter-spacing: -.4px; }
+  .section-head p { color: var(--ink-soft); margin-top: 10px; font-size: 16px; }
+  .section-tag {
+    display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--coral); margin-bottom: 12px;
+  }
+
+  /* ---------- Featured ---------- */
+  .featured {
+    display: flex; align-items: center; gap: 44px;
+    background: linear-gradient(135deg, #fff7ed, #ffeede);
+    border: 1px solid #fed7aa; border-radius: var(--radius-lg);
+    padding: 44px 48px; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .featured::before {
+    content: "★"; position: absolute; right: -40px; top: -40px;
+    font-size: 220px; color: rgba(255, 197, 61, 0.14); line-height: 1;
+  }
+  .featured .f-icon {
+    width: 132px; height: 132px; border-radius: 30px; flex-shrink: 0;
+    box-shadow: 0 16px 40px rgba(255, 122, 89, 0.3);
+  }
+  .featured .f-badge {
+    display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase; color: #fff; background: var(--grad);
+    padding: 5px 14px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .featured h3 { font-size: 30px; font-weight: 800; }
+  .featured .f-rating { display: flex; align-items: center; gap: 6px; margin: 10px 0 12px; }
+  .featured .f-rating .score { font-weight: 800; font-size: 17px; }
+  .featured p { color: var(--ink-soft); font-size: 15.5px; margin-bottom: 22px; max-width: 560px; }
+
+  /* ---------- App Cards ---------- */
+  .apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .app-card {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 26px; display: flex; flex-direction: column;
+    transition: transform .25s, box-shadow .25s; position: relative;
+  }
+  .app-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+  .app-card:hover .app-icon { transform: scale(1.06) rotate(-3deg); }
+  .app-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+  .app-icon {
+    width: 68px; height: 68px; border-radius: 17px;
+    box-shadow: 0 8px 20px rgba(84, 48, 20, 0.18);
+    transition: transform .3s;
+  }
+  .cat {
+    font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .cat-sudoku { background: #eef2ff; color: #4f46e5; }
+  .cat-puzzle { background: #fff1f2; color: #e11d48; }
+  .cat-casual { background: #fff7ed; color: #ea580c; }
+  .cat-art    { background: #fdf4ff; color: #a21caf; }
+  .cat-tool   { background: #ecfeff; color: #0891b2; }
+  .app-card h3 { font-size: 18px; font-weight: 800; line-height: 1.3; }
+  .app-rating { display: flex; align-items: center; gap: 6px; margin: 8px 0 10px; }
+  .app-rating .star { color: var(--sun); font-size: 16px; }
+  .app-rating .score { font-weight: 800; font-size: 15px; }
+  .app-rating .badge {
+    font-size: 11px; font-weight: 800; padding: 2px 9px; border-radius: 999px;
+    background: #dcfce7; color: #15803d; margin-left: 2px;
+  }
+  .app-desc { color: var(--ink-soft); font-size: 14px; flex: 1; }
+  .app-link {
+    margin-top: 18px; display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 800; color: var(--coral-dark); transition: gap .2s;
+  }
+  .app-link:hover { gap: 12px; }
+
+  /* ---------- About ---------- */
+  .about {
+    background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    max-width: none; padding: 76px 24px; margin-top: 76px;
+  }
+  .about-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+  .about p { color: var(--ink-soft); font-size: 16px; margin-top: 12px; }
+  .about-features {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;
+  }
+  .feature {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 26px 20px; transition: transform .25s, box-shadow .25s;
+  }
+  .feature:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .feature .icon { font-size: 30px; margin-bottom: 10px; }
+  .feature h4 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+  .feature p { font-size: 13px; color: var(--ink-soft); margin-top: 0; }
+
+  /* ---------- Footer ---------- */
+  footer { background: #2b2333; color: rgba(255,255,255,.72); padding: 48px 24px; }
+  .footer-inner { max-width: 1140px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: #fff; }
+  footer a { color: #ffd0c0; }
+  footer a:hover { text-decoration: underline; }
+  .footer-links { display: flex; gap: 22px; font-size: 14px; }
+  .copyright { max-width: 1140px; margin: 24px auto 0; font-size: 12px; color: rgba(255,255,255,.4); text-align: center; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .hero-inner { flex-direction: column; text-align: center; gap: 40px; }
+    .hero-copy { max-width: 620px; }
+    .hero p { margin-left: auto; margin-right: auto; }
+    .hero-visual { margin: 0 auto; }
+    .featured { flex-direction: column; text-align: center; padding: 36px 26px; }
+    .featured p { margin-left: auto; margin-right: auto; }
+    .about-features { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 42px; }
+  }
+  @media (max-width: 620px) {
+    .apps-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; margin-top: -44px; }
+    .hero { padding: 64px 20px 110px; }
+    .hero h1 { font-size: 33px; }
+    .section-head h2 { font-size: 26px; }
+    .hero-visual { width: 280px; height: 260px; transform: scale(.82); }
+  }
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="nav">
-            <!-- <a href="#">home</a> -->
-        </div>
+
+<!-- ================= Header ================= -->
+<header>
+  <div class="nav">
+    <a href="#" class="brand">
+      <span class="brand-logo">A</span>
+      <span>Aaron's Studio</span>
+    </a>
+    <div class="nav-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="zh">中文</button>
+      </div>
+      <a class="btn" href="https://play.google.com/store/apps/developer?id=Aaron%27s+Studio" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm6 10.7c0 .3-.2.6-.5.7l-9.7 5.6c-.4.2-.9 0-1.1-.4-.1-.2-.2-.5-.2-.7V7.6c0-.5.4-.9.9-.9.3 0 .5.1.7.2l9.7 5.6c.3.2.5.4.5.7z" transform="scale(0.9) translate(1.2 1.2)"/></svg>
+        <span data-en="View on Google Play" data-zh="前往 Google Play">View on Google Play</span>
+      </a>
     </div>
-    <div class="main">
-        <div class="text-content">
-            <h1>Coloring Master：Coloring Book</h1>
-            <p>Stretch your brain daily with this logic-based puzzle 🧠! Fill a 9x9 grid with 1-9, ensuring no repeats in rows, columns, or 3x3 blocks 🔢.
-                New challenges daily—perfect for beginners to experts. Boost focus and problem-solving while having fun 🎉. Play anytime, anywhere!</p>
-                <a href="https://play.google.com/store/apps/details?id=com.paint.by.number.color.book.free" class="btn">START FOR FREE</a>
-        </div>
-        <div class="image-content">
-            <img src="https://play-lh.googleusercontent.com/XBipR9L3MkVVvMUyHQ-5wG7f_aF5AloZ6V3y7e4s7bec3KU7GC7U8Po3kZ3EV2uK4rI=w5120-h2880-rw" alt="Game Path">
-        </div>
+  </div>
+</header>
+
+<!-- ================= Hero ================= -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="hero-badge" data-en="Independent Game Studio · Google Play" data-zh="独立游戏工作室 · Google Play">Independent Game Studio · Google Play</span>
+      <h1><span class="grad" data-en="Little Games," data-zh="小游戏，">Little Games,</span><br><span data-en="Big Joy." data-zh="大快乐。">Big Joy.</span></h1>
+      <p data-en="Aaron's Studio makes free, feel-good puzzle games and playful tools — crafted to make every spare moment a little brighter." data-zh="Aaron's Studio 打造免费、治愈的益智游戏与趣味工具，让每一个闲暇时刻都更明亮。">Aaron's Studio makes free, feel-good puzzle games and playful tools — crafted to make every spare moment a little brighter.</p>
+      <a class="btn" href="#apps">
+        <span data-en="Explore Our Games" data-zh="浏览我们的游戏">Explore Our Games</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 14l-7 7-7-7M12 21V3"/></svg>
+      </a>
+      <div class="hero-note" data-en="Free to download · No hidden fees" data-zh="免费下载 · 无隐藏费用">Free to download · No hidden fees</div>
     </div>
-    <div class="watermark">豆包AI生成</div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <img class="float-icon i1" src="https://play-lh.googleusercontent.com/B-_Ik9x4mpy2QXKoUy6icr0i1-O23h1Xsz0BN3D1zIlHUohcC1vftjB5aKWQ5JaoOR1RXzbR0VY7CoOIKvw8zqY=w192-h192" alt="">
+      <img class="float-icon i2" src="https://play-lh.googleusercontent.com/4rFc8yx2lR-jS6GdAeHT19Fas8o5x59g19U7L_H6maYo_mSLuqBFI7Yel_fiV9MxST9nSWZBenjQXl7VGXGu4w=w192-h192" alt="">
+      <img class="float-icon i3" src="https://play-lh.googleusercontent.com/6Zw6nSsbQzz_SWJQAcvcqG5r218t6STa5jLqm4U0FcDYqvB2bzOrA373Y9ofZ6-Jxv_2TtuEADejJ8GWSAeuag=w192-h192" alt="">
+      <img class="float-icon i4" src="https://play-lh.googleusercontent.com/q7RhMe5BbvTbpfuiUR4AQ21xNS7uIdtegjkqSA3sVJmKuM-Mo1EgkFaIpFyix3QlLukFhnevN0KdrdVhYNFcgQ=w192-h192" alt="">
+      <div class="hero-core">🎮</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Stats ================= -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="num">9</div>
+    <div class="label" data-en="Apps on Google Play" data-zh="Google Play 应用">Apps on Google Play</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">4.3<span class="star">★</span></div>
+    <div class="label" data-en="Average Player Rating" data-zh="平均玩家评分">Average Player Rating</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">100%</div>
+    <div class="label" data-en="Free to Play, Forever" data-zh="永久免费游玩">Free to Play, Forever</div>
+  </div>
+</div>
+
+<!-- ================= Featured ================= -->
+<section id="featured" style="padding-top: 76px;">
+  <div class="featured">
+    <img class="f-icon" src="https://play-lh.googleusercontent.com/HlB16cMdMzVuAhhBtzenZhgAyK4i5GWuelmTb-LcdprM0I30Pss8R0X6J3Cta92h4AbA_z5dbKCFdU6VFd982g=w192-h192" alt="Logic Puzzle icon" loading="lazy">
+    <div>
+      <span class="f-badge" data-en="Featured" data-zh="精选">Featured</span>
+      <h3>Logic Puzzle</h3>
+      <div class="f-rating">
+        <span class="star">★★★★</span>
+        <span class="score">4.8</span>
+      </div>
+      <p data-en="Drop blocks, clear lines, and watch your logic grow sharper with every move. A delightfully simple block puzzle that is easy to learn, endlessly satisfying, and perfect for unwinding — wherever you are." data-zh="摆放方块、消除行线，每一步都让逻辑更敏锐。这款简单好上手的方块谜题，易学难精、妙趣无穷，随时随地放松解压。">Drop blocks, clear lines, and watch your logic grow sharper with every move. A delightfully simple block puzzle that is easy to learn, endlessly satisfying, and perfect for unwinding — wherever you are.</p>
+      <a class="btn" href="https://play.google.com/store/apps/details?id=com.a.game.logicpuzzle.blockpuzzle.block.puzzle.free" target="_blank" rel="noopener">
+        <span data-en="Play on Google Play" data-zh="在 Google Play 游玩">Play on Google Play</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Apps ================= -->
+<section id="apps">
+  <div class="section-head">
+    <span class="section-tag" data-en="All Apps" data-zh="全部应用">All Apps</span>
+    <h2 data-en="Pick Your Next Favorite" data-zh="挑选你的下一款心头好">Pick Your Next Favorite</h2>
+    <p data-en="Every game is free, easy to pick up, and built with care. Tap any card to get it on Google Play." data-zh="每款游戏都免费、易上手、用心打造。点击任意卡片即可前往 Google Play 获取。">Every game is free, easy to pick up, and built with care. Tap any card to get it on Google Play.</p>
+  </div>
+
+  <div class="apps-grid">
+
+<!-- Logic Puzzle -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/HlB16cMdMzVuAhhBtzenZhgAyK4i5GWuelmTb-LcdprM0I30Pss8R0X6J3Cta92h4AbA_z5dbKCFdU6VFd982g=w192-h192" alt="Logic Puzzle icon" loading="lazy">
+        <span class="cat cat-puzzle" data-en="Puzzle" data-zh="益智">Puzzle</span>
+      </div>
+      <h3>Logic Puzzle</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.8</span></div>
+      <p class="app-desc" data-en="Drop blocks, clear lines, and sharpen your logic with fun, relaxing block-puzzle gameplay." data-zh="摆放方块、消除行线，在轻松有趣的方块谜题中磨砺逻辑思维。">Drop blocks, clear lines, and sharpen your logic with fun, relaxing block-puzzle gameplay.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.game.logicpuzzle.blockpuzzle.block.puzzle.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- MinoeDoku -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/IjN6YYgcNRQCGiNtDa7FtWVlsfcDqHW9m5-Ek8XZU1BDq_NJlS5Gg84Ov6GimchqnhNnAqTdOHpeFI8yr00K2G8=w192-h192" alt="MinoeDoku icon" loading="lazy">
+        <span class="cat cat-sudoku" data-en="Sudoku" data-zh="数独">Sudoku</span>
+      </div>
+      <h3>MinoeDoku</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.6</span></div>
+      <p class="app-desc" data-en="A cozy cat-themed grid puzzle that warms your heart while it trains your brain." data-zh="温馨猫咪主题的宫格谜题，暖了心窝，又练了脑子。">A cozy cat-themed grid puzzle that warms your heart while it trains your brain.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.game.minoedoku.meow.sudoku.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- Haircut Prank -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/lZdr1EgOhQBNNVU4gJsEqbtbTPU3c8iWX362nBTKf1OabDETZFbutSmTky_W1RL4WWl1w1-EPW8tAMsxGyje=w192-h192" alt="Haircut Prank icon" loading="lazy">
+        <span class="cat cat-tool" data-en="Fun Tool" data-zh="趣味工具">Fun Tool</span>
+      </div>
+      <h3>Haircut Prank, Air horn &amp; Fart</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.4</span></div>
+      <p class="app-desc" data-en="Hilarious sound effects for the perfect prank. Warning: uncontrollable laughter ahead!" data-zh="爆笑音效，整蛊神器。警告：前方笑点失控，谨慎使用！">Hilarious sound effects for the perfect prank. Warning: uncontrollable laughter ahead!</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.tools.hairclipper.airhorn.prank.sounds.funny.jokes.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- Sudoku: Classic -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/Q2LEkWbyLP_PToEXUgkFzyJ9ooaUKypGbBsDN6EXd0SwDR1fJfVeeQsqwWggf5prBhJYiQrlBbwRp6Ha3hAP=w192-h192" alt="Sudoku Classic icon" loading="lazy">
+        <span class="cat cat-sudoku" data-en="Sudoku" data-zh="数独">Sudoku</span>
+      </div>
+      <h3>Sudoku: Classic Sudoku Puzzle</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.4</span></div>
+      <p class="app-desc" data-en="Clean, classic sudoku with smooth controls — train your logic and relax your mind." data-zh="简洁纯粹的经典数独，操控顺滑——练逻辑，静心神。">Clean, classic sudoku with smooth controls — train your logic and relax your mind.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.classic.sudoku.puzzle.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- Jigsaw Puzzles -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/4rFc8yx2lR-jS6GdAeHT19Fas8o5x59g19U7L_H6maYo_mSLuqBFI7Yel_fiV9MxST9nSWZBenjQXl7VGXGu4w=w192-h192" alt="Jigsaw Puzzles icon" loading="lazy">
+        <span class="cat cat-puzzle" data-en="Jigsaw" data-zh="拼图">Jigsaw</span>
+      </div>
+      <h3>Jigsaw Puzzles</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.4</span></div>
+      <p class="app-desc" data-en="High-definition jigsaw puzzles with gorgeous images. Relax, focus, and piece it all together." data-zh="高清精美的拼图游戏。在动人画面中放松专注，拼出完整世界。">High-definition jigsaw puzzles with gorgeous images. Relax, focus, and piece it all together.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.game.jigsaw" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- Sudoku - Daily Puzzle -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/B-_Ik9x4mpy2QXKoUy6icr0i1-O23h1Xsz0BN3D1zIlHUohcC1vftjB5aKWQ5JaoOR1RXzbR0VY7CoOIKvw8zqY=w192-h192" alt="Sudoku - Daily Puzzle icon" loading="lazy">
+        <span class="cat cat-sudoku" data-en="Sudoku" data-zh="数独">Sudoku</span>
+      </div>
+      <h3>Sudoku - Daily Puzzle</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.4</span></div>
+      <p class="app-desc" data-en="A fresh sudoku puzzle every day, with smart hints and multiple difficulty levels for endless brain-boosting fun." data-zh="每天一个全新数独，智能提示、多档难度，尽享无限烧脑乐趣。">A fresh sudoku puzzle every day, with smart hints and multiple difficulty levels for endless brain-boosting fun.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.game.sudoku.puzzle.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- 成语乐消消 -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/q7RhMe5BbvTbpfuiUR4AQ21xNS7uIdtegjkqSA3sVJmKuM-Mo1EgkFaIpFyix3QlLukFhnevN0KdrdVhYNFcgQ=w192-h192" alt="成语乐消消 icon" loading="lazy">
+        <span class="cat cat-casual" data-en="Casual" data-zh="休闲">Casual</span>
+      </div>
+      <h3>成语乐消消 <span style="font-size:12px;font-weight:600;color:var(--ink-soft);">(Idiom Crush)</span></h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.3</span></div>
+      <p class="app-desc" data-en="Match-3 meets Chinese idioms! Swipe, eliminate, and grow your idiom vocabulary with every level you clear." data-zh="消消乐遇上中国成语！滑动消除，每过一关，你的成语库就涨一分。">Match-3 meets Chinese idioms! Swipe, eliminate, and grow your idiom vocabulary with every level you clear.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.game.chinese.idiom.crash.happy" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- Coloring Master -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/6Zw6nSsbQzz_SWJQAcvcqG5r218t6STa5jLqm4U0FcDYqvB2bzOrA373Y9ofZ6-Jxv_2TtuEADejJ8GWSAeuag=w192-h192" alt="Coloring Master icon" loading="lazy">
+        <span class="cat cat-art" data-en="Art" data-zh="艺术">Art</span>
+      </div>
+      <h3>Coloring Master: Coloring Book</h3>
+      <div class="app-rating"><span class="star">★</span><span class="score">4.6</span></div>
+      <p class="app-desc" data-en="Paint by number with hundreds of artworks. Creative, calming, and completely free." data-zh="上百幅数字涂色作品。创意无限，宁静治愈，完全免费。">Paint by number with hundreds of artworks. Creative, calming, and completely free.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.paint.by.number.color.book.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+<!-- 2048 -->
+    <div class="app-card">
+      <div class="app-top">
+        <img class="app-icon" src="https://play-lh.googleusercontent.com/mxaFLGwqThIZs1KWCpSHbgDbb8nHiWDFRnB3A1gAEdy0hWRpYF2sveB4kU4y3J7Otju0ghuhxnLNHmX6gE31=w192-h192" alt="2048 icon" loading="lazy">
+        <span class="cat cat-puzzle" data-en="Puzzle" data-zh="益智">Puzzle</span>
+      </div>
+      <h3>2048</h3>
+      <div class="app-rating"><span class="badge" data-en="NEW" data-zh="新">NEW</span></div>
+      <p class="app-desc" data-en="Slide, merge, and chase 2048! A bite-sized brain teaser that fits perfectly into any spare moment." data-zh="滑动合并，冲击 2048！一口就能吃下的轻量脑力小食，随时开玩。">Slide, merge, and chase 2048! A bite-sized brain teaser that fits perfectly into any spare moment.</p>
+      <a class="app-link" href="https://play.google.com/store/apps/details?id=com.a.game.n2048.free" target="_blank" rel="noopener">
+        <span data-en="Get it on Google Play" data-zh="在 Google Play 获取">Get it on Google Play</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= About ================= -->
+<div class="about">
+  <div class="about-inner">
+    <span class="section-tag" data-en="About Us" data-zh="关于我们">About Us</span>
+    <h2 style="font-size:30px;font-weight:800;" data-en="Made with Heart, Played with Joy" data-zh="用心打造，乐在其中">Made with Heart, Played with Joy</h2>
+    <p data-en="Aaron's Studio is an independent game studio on a simple mission: make free games that make people smile. From brainy sudoku to silly pranks, every app is designed to be easy to pick up, hard to put down, and kind to your day." data-zh="Aaron's Studio 是一家独立游戏工作室，使命很简单：做让人微笑的免费游戏。从烧脑数独到搞怪整蛊，每款应用都易上手、难放下，为你的每一天添一份善意与快乐。">Aaron's Studio is an independent game studio on a simple mission: make free games that make people smile. From brainy sudoku to silly pranks, every app is designed to be easy to pick up, hard to put down, and kind to your day.</p>
+    <div class="about-features">
+      <div class="feature">
+        <div class="icon">🧠</div>
+        <h4 data-en="Brain Training" data-zh="脑力训练">Brain Training</h4>
+        <p data-en="Puzzles designed to keep your mind sharp and your day brighter." data-zh="为保持思维敏锐而设计的谜题，让每一天更明亮。">Puzzles designed to keep your mind sharp and your day brighter.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">❤️</div>
+        <h4 data-en="Made with Love" data-zh="用心之作">Made with Love</h4>
+        <p data-en="Every app is crafted by a small, passionate independent team." data-zh="每款应用都由小而热忱的独立团队倾心打造。">Every app is crafted by a small, passionate independent team.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🎁</div>
+        <h4 data-en="Free Forever" data-zh="永久免费">Free Forever</h4>
+        <p data-en="No paywalls. No tricks. Just pure, uncomplicated fun." data-zh="无付费墙，无套路，只有纯粹简单的乐趣。">No paywalls. No tricks. Just pure, uncomplicated fun.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Footer ================= -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-logo">A</span>
+      <span>Aaron's Studio</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://play.google.com/store/apps/developer?id=Aaron%27s+Studio" target="_blank" rel="noopener" data-en="Google Play Developer Page" data-zh="Google Play 开发者主页">Google Play Developer Page</a>
+      <a href="mailto:support@aaronsstudio.com" data-en="Contact Us" data-zh="联系我们">Contact Us</a>
+    </div>
+  </div>
+  <div class="copyright">
+    © 2026 Aaron's Studio. <span data-en="All rights reserved." data-zh="版权所有。">All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var LANGS = ['en', 'zh'];
+    var KEY = 'aarons-studio-lang';
+
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en]').forEach(function (el) {
+        el.textContent = lang === 'zh' ? (el.getAttribute('data-zh') || el.getAttribute('data-en')) : el.getAttribute('data-en');
+      });
+      document.querySelectorAll('.lang-switch button').forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    var lang = LANGS.indexOf(saved) !== -1 ? saved : 'en'; // 默认英文
+
+    applyLang(lang);
+
+    document.querySelectorAll('.lang-switch button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyLang(btn.getAttribute('data-lang'));
+        try { localStorage.setItem(KEY, btn.getAttribute('data-lang')); } catch (e) {}
+      });
+    });
+  })();
+</script>
+
 </body>
 </html>
