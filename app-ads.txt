@@ -283,6 +283,8 @@ smaato.com, 1100057628, RESELLER, 07bcf65f187117b4
 smartadserver.com, 5407, RESELLER, 060d053dcf45cbf3
 smartadserver.com, 5564, RESELLER, 060d053dcf45cbf3
 smilewanted.com, 6194, RESELLER
+songm9714@gmail.com
+spinx.biz, 1373698940, RESELLER
 sovrn.com, 400766, RESELLER, fafdf38b16bf6b2b
 ssp.e-volution.ai, AJxF6R674a9M6CaTvK, RESELLER
 taurusx.com, 80654, RESELLER
